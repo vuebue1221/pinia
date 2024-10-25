@@ -465,10 +465,11 @@ export function mapWritableState<
   G extends _GettersTree<S>,
   A,
   KeyMapper extends Record<string, keyof S>,
+  SS extends StateTree = Store<Id, S, G, A>,
 >(
   useStore: StoreDefinition<Id, S, G, A>,
   keyMapper: KeyMapper
-): _MapWritableStateObjectReturn<S, KeyMapper>
+): Pick<_MapWritableStateObjectReturn<SS, KeyMapper>, keyof KeyMapper>
 /**
  * Allows using state and getters from one store without using the composition
  * API (`setup()`) by generating an object to be spread in the `computed` field
@@ -483,15 +484,11 @@ export function mapWritableState<
   G extends _GettersTree<S>,
   A,
   Keys extends keyof S,
+  SS extends StateTree = Store<Id, S, G, A>,
 >(
   useStore: StoreDefinition<Id, S, G, A>,
   keys: readonly Keys[]
-): {
-  [K in Keys]: {
-    get: () => S[K]
-    set: (value: S[K]) => any
-  }
-}
+): Pick<_MapWritableStateReturn<SS>, Keys>
 /**
  * Allows using state and getters from one store without using the composition
  * API (`setup()`) by generating an object to be spread in the `computed` field

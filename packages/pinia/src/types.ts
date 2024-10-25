@@ -11,7 +11,7 @@ import { Pinia } from './rootStore'
 /**
  * Generic state of a Store
  */
-export type StateTree = Record<string | number | symbol, any>
+export type StateTree = Record<PropertyKey, any>
 
 export function isPlainObject<S extends StateTree>(
   value: S | unknown
