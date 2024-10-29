@@ -116,7 +116,7 @@ expectType<{
   }
 }>(mapWritableState(useOptionsStore, ['a']))
 // @ts-expect-error: only defined in array
-mapWritableState(useStore, ['a']).b
+mapWritableState(useOptionsStore, ['a']).b
 
 expectType<{
   newA: {
@@ -126,9 +126,23 @@ expectType<{
 }>(mapWritableState(useOptionsStore, { newA: 'a' }))
 
 // @ts-expect-error: cannot use a getter
-mapWritableState(useStore, ['upper'])
+mapWritableState(useOptionsStore, ['upper'])
 // @ts-expect-error: cannot use a getter
-mapWritableState(useStore, { up: 'upper' })
+mapWritableState(useOptionsStore, { up: 'upper' })
+
+expectType<{
+  foo: {
+    get: () => 'on' | 'off'
+    set: (v: 'on' | 'off') => any
+  }
+}>(mapWritableState(useSetupStore, { foo: 'a' }))
+
+expectType<{
+  a: {
+    get: () => 'on' | 'off'
+    set: (v: 'on' | 'off') => any
+  }
+}>(mapWritableState(useSetupStore, ['a']))
 
 const setupStoreWithState = mapState(useSetupStore, ['a'])
 
